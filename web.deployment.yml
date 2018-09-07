@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: homework
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homework
+  template:
+    metadata:
+      labels:
+        app: homework
+    spec:
+      containers:
+      - name: emoncms-web
+        image: harbor.high.am/danhigham/homework:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: CANVAS_SCHOOL
+          value: bsd
+        - name: CANVAS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: canvas-token 
+              key: canvas-token

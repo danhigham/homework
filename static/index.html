@@ -1,0 +1,59 @@
+<!doctype html> 
+<html>
+    <head>
+        <script src="/js/jquery-3.3.1.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/underscore-min.js"></script>
+        <script src="/js/mustache.min.js"></script>
+        <script id="course_tmpl" type="x-tmpl-mustache">
+          <div class="carousel-item{{#active}} active{{/active}}">
+            <div class="label"><h3>{{name}}</h3></div><div id="course-{{id}}-assignments"><ul class="assignment-list"></ul></div>
+          </div>
+        </script>
+        <script id="assignment_tmpl" type="x-tmpl-mustache">
+          <li id="assignment-{{id}}" class="assignment"><h5>{{name}}</h5><span class="description">{{{description}}}</span><span class="due_at">{{due_at}}</span></li>
+        </script>
+        <script id="event_tmpl" type="x-tmpl-mustache">
+        <li class="event"><h5>{{title}}</h5><span class="description">{{{description}}}</span></li>
+        </script>
+        <script src="/js/async.min.js"></script>
+        <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" /> 
+        <link type="text/css" rel="stylesheet" href="/css/homework.css" />
+        <style type="text/css">
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="assignments-tab" data-toggle="tab" href="#assignments" role="tab" aria-controls="assignments" aria-selected="true">Assignments</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="schedule-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="schedule" aria-selected="false">Schedule</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="assignments" role="tabpanel" aria-labelledby="assignments-tab">
+              <div id="courses-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                </div>
+                <a class="carousel-control-prev" href="#courses-carousel" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#courses-carousel" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
+              <ul id="schedule-items">
+              </ul>
+            </div>
+          </div>
+        </div>
+        <script src="/js/homework.js"></script> 
+    </body>
+</html>

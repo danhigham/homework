@@ -1,0 +1,14 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: homework-http
+spec:
+  selector:
+    app: homework
+  ports:
+  - protocol: TCP
+    name: homework-http
+    port: 8080
+    targetPort: 8080
+  type: NodePort

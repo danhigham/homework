@@ -1,0 +1,58 @@
+---
+jobs:
+- name: build-emoncms-docker-image
+  public: true
+  serial: true
+  plan:
+  - get: emoncms-repo
+    trigger: true
+  - get: emoncms-dashboard-repo
+    trigger: true
+  - get: emoncms-graph-repo
+    trigger: true
+  - get: emoncms-app-repo
+    trigger: true
+  - get: emoncms-docker-image-repo
+  - put: docker-image
+    params:
+      build: emoncms-docker-image-repo
+
+resources:
+
+- name: emoncms-repo
+  type: git
+  source:
+    uri: https://github.com/emoncms/emoncms.git
+    branch: stable
+
+- name: emoncms-dashboard-repo
+  type: git
+  source:
+    uri: https://github.com/emoncms/dashboard.git
+    branch: stable 
+
+- name: emoncms-graph-repo
+  type: git
+  source:
+    uri: https://github.com/emoncms/graph.git
+    branch: stable
+
+- name: emoncms-app-repo
+  type: git
+  source:
+    uri: https://github.com/emoncms/app.git
+    branch: stable
+
+- name: emoncms-docker-image-repo
+  type: git
+  source:
+    uri: https://git.high.am/danhigham/emoncms-docker.git
+    skip_ssl_verification: true
+    branch: master
+
+- name: docker-image
+  type: docker-image
+  source:
+    username: {{harbor-username}}
+    password: {{harbor-password}}
+    repository: {{harbor-repo}}
