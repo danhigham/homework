@@ -17,6 +17,9 @@
         <script id="event_tmpl" type="x-tmpl-mustache">
         <li class="event"><h5>{{title}}</h5><span class="description">{{{description}}}</span></li>
         </script>
+        <script id="overdue_tmpl" type="x-tmpl-mustache">
+          <li class="overdue-assignment"><h5>{{name}}</h5><span>{{course_name}}</span><span class="description">{{{description}}}</span></li>
+        </script>
         <script src="/js/async.min.js"></script>
         <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" /> 
         <link type="text/css" rel="stylesheet" href="/css/homework.css" />
@@ -31,6 +34,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" id="schedule-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="schedule" aria-selected="false">Schedule</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="overdue-tab" data-toggle="tab" href="#overdue" role="tab" aria-controls="overdue" aria-selected="false">Overdue</a>
             </li>
           </ul>
           <div class="tab-content">
@@ -50,6 +56,10 @@
             </div>
             <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
               <ul id="schedule-items">
+              </ul>
+            </div>
+            <div class="tab-pane fade" id="overdue" role="tabpanel" aria-labelledby="overdue-tab">
+              <ul id="overdue-items">
               </ul>
             </div>
           </div>

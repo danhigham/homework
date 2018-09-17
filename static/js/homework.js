@@ -34,6 +34,17 @@ $(document).ready(function() {
     })
   });
 
+  $.ajax({
+    type: "GET",
+    contentType: "application/json",
+    url: "./overdue.json",
+  }).done(function(overdue) {
+    _.each(overdue, function(assignment) {
+      li = renderTemplate("overdue_tmpl", assignment);
+      $('#overdue-items').append(li);
+    });
+  });
+
   function loadSchedule(courseIDs) {
     $.ajax({
       type: "GET",

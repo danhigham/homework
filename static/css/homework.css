@@ -50,6 +50,12 @@ li.event {
   padding: 10px;
   background-color: #e0e0e0;
 }
+li.overdue-assignment {
+  font-size: 0.8em;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #e0e0e0;
+}
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
   height: 60px;

@@ -59,6 +59,7 @@ type Calendar struct {
 
 type Assignment struct {
 	Id          int       `json:"id"`
+	CourseName  string    `json:"course_name"`
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	DueAt       time.Time `json:"due_at,string"`
@@ -79,6 +80,7 @@ func main() {
 	e.GET("/courses/today.json", coursesToday)
 	e.GET("/courses/:id/assignments.json", assignments)
 	e.GET("/courses/:ids/today.json", today)
+	e.GET("/overdue.json", overdueAssignments)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":8080"))
@@ -112,6 +114,52 @@ func today(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, events)
+}
+
+func overdueAssignments(c echo.Context) error {
+
+	var courses []Course
+	var overdue []Assignment
+
+	resp, err := doGet("api/v1/courses")
+	if err != nil {
+		return c.String(http.StatusInternalServerError, fmt.Sprintf("%s", err))
+	}
+
+	if resp.StatusCode == http.StatusOK {
+		jsonBlob, _ := ioutil.ReadAll(resp.Body)
+		err = json.Unmarshal(jsonBlob, &courses)
+
+		if err != nil {
+			return c.String(http.StatusInternalServerError, fmt.Sprintf("%s", err))
+		}
+	}
+
+	for i := range courses {
+		cAssgn := fmt.Sprintf("/api/v1/courses/%d/assignments?bucket=overdue", courses[i].Id)
+
+		resp, err := doGet(cAssgn)
+		if err != nil {
+			return c.String(http.StatusInternalServerError, fmt.Sprintf("%s", err))
+		}
+
+		if resp.StatusCode == http.StatusOK {
+			jsonBlob, _ := ioutil.ReadAll(resp.Body)
+			var assign []Assignment
+			err = json.Unmarshal(jsonBlob, &assign)
+
+			if err != nil {
+				return c.String(http.StatusInternalServerError, fmt.Sprintf("%s", err))
+			}
+
+			for a := range assign {
+				assign[a].CourseName = courses[i].Name
+				overdue = append(overdue, assign[a])
+			}
+		}
+	}
+
+	return c.JSON(http.StatusOK, overdue)
 }
 
 func getEvents(url string) ([]CalendarEvent, error) {
